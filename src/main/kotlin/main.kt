@@ -10,23 +10,28 @@ fun main(args: Array<String>) {
     val application = Application(express())
 
     application.get("/") { _, response ->
-        response.type("text/plain")
+        response.setContentType("text/plain")
         response.send("Hello world")
     }
 
     application.get("/html") {
         _, response ->
-        response.type("text/html")
+        response.setContentType("text/html")
         response.send("<html><head></head><body><h1>HTML Response Test</h1></body></html>")
     }
 
     application.get("/json") {
         _, response ->
-        response.json(json(
+        response.sendJSON(json(
                 Pair("foo", "bar"),
                 Pair("flag", true),
                 Pair("list", arrayOf(1, 2, 3))
         ))
+    }
+
+    application.get("/view") {
+        _, response ->
+        response.render("test", json(Pair("text", "This text is dynamic")))
     }
 
     application.listen(3000, {

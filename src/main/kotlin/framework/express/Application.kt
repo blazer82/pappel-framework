@@ -1,6 +1,15 @@
 package framework.express
 
+external fun require(module:String):dynamic
+
 class Application(external private val app: dynamic) {
+
+    init {
+        val mustacheExpress = require("mustache-express")
+
+        app.engine("html", mustacheExpress())
+        app.set("view engine", "html")
+    }
 
     /**
      * Handle GET request for [path]
@@ -12,29 +21,50 @@ class Application(external private val app: dynamic) {
     }
 
     /**
-     * Starts listening on UNIX socket with [socketPath]
+     * Start listening on UNIX socket with [socketPath]
      */
-    fun listen(socketPath: String, callback: (() -> Unit)?) {
+    fun listen(socketPath: String) {
+        app.listen(socketPath)
+    }
+
+    /**
+     * Start listening on UNIX socket with [socketPath]
+     */
+    fun listen(socketPath: String, callback: (() -> Unit)) {
         app.listen(socketPath) {
-            callback?.invoke()
+            callback.invoke()
         }
     }
 
     /**
-     * Starts listening on [port]
+     * Start listening on [port]
      */
-    fun listen(port: Int, callback: (() -> Unit)?) {
+    fun listen(port: Int) {
+        app.listen(port)
+    }
+
+    /**
+     * Start listening on [port]
+     */
+    fun listen(port: Int, callback: () -> Unit) {
         app.listen(port) {
-            callback?.invoke()
+            callback.invoke()
         }
     }
 
     /**
-     * Starts listening on [host]:[port]
+     * Start listening on [host]:[port]
      */
-    fun listen(port: Int, host: String, callback: (() -> Unit)?) {
+    fun listen(port: Int, host: String) {
+        app.listen(port, host)
+    }
+
+    /**
+     * Start listening on [host]:[port]
+     */
+    fun listen(port: Int, host: String, callback: () -> Unit) {
         app.listen(port, host) {
-            callback?.invoke()
+            callback.invoke()
         }
     }
 

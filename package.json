@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2",
-    "kotlin": "^1.2.0"
+    "kotlin": "^1.2.0",
+    "mustache": "^2.3.0",
+    "mustache-express": "^1.2.5"
   }
 }
