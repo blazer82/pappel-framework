@@ -73,6 +73,22 @@ class Response(external private val res: dynamic) {
     }
 
     /**
+     * Set header [field] to [value]
+     */
+    fun setHeader(field: String, value: String) {
+        res.append(field, value)
+    }
+
+    /**
+     * Set multiple headers
+     */
+    fun setHeaders(fields: Map<String, String>) {
+        fields.forEach {
+            entry -> res.append(entry.key, entry.value)
+        }
+    }
+
+    /**
      * Set status [code]
      */
     fun setStatus(status: Status) {

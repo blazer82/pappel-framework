@@ -40,6 +40,13 @@ fun main(args: Array<String>) {
         response.end()
     }
 
+    application.get("/header") {
+        _, response ->
+        response.setHeader("foo", "bar")
+        response.setHeaders(mapOf("a" to "b", "c" to "d"))
+        response.end()
+    }
+
     application.listen(3000, {
         println("Listening on port 3000")
     })
