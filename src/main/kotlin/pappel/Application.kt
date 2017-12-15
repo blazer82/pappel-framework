@@ -71,4 +71,13 @@ class Application(external private val app: dynamic) {
         }
     }
 
+    /**
+     * Register middleware globally
+     */
+    fun onRequest(callback: (request: Request, response: Response, next: () -> Unit) -> Unit) {
+        app.use {
+            req, res, n -> callback.invoke(Request(req), Response(res), n as () -> Unit)
+        }
+    }
+
 }

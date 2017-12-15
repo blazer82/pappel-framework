@@ -9,6 +9,12 @@ fun main(args: Array<String>) {
     val express = require("express")
     val application = Application(express())
 
+    application.onRequest {
+        _, _, next ->
+        println("Global request handler")
+        next()
+    }
+
     application.get("/") { _, response ->
         response.setContentType("text/plain")
         response.send("Hello world")
