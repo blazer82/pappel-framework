@@ -1,8 +1,5 @@
 package framework.express
 
-import kotlin.js.Json
-import kotlin.js.json
-
 class Response(external private val res: dynamic) {
 
     /**
@@ -21,10 +18,16 @@ class Response(external private val res: dynamic) {
 
     /**
      * Send [data] response as JSON
-     * @todo Maybe find a more useful type than Json for [data]
      */
-    fun sendJSON(data: Json) {
-        res.json(data)
+    fun sendJSON(data: Map<String, Any>) {
+        res.json(JSONUtils.toJSON(data))
+    }
+
+    /**
+     * Send [data] response as JSON
+     */
+    fun sendJSON(data: Array<Any>) {
+        res.json(JSONUtils.toJSON(data))
     }
 
     /**
@@ -45,18 +48,16 @@ class Response(external private val res: dynamic) {
 
     /**
      * Render [view] using [parameters] and send response to client
-     * @todo Find a more useful type than Json for [parameters]
      */
-    fun render(view: String, parameters: Json) {
-        res.render("$view.html", parameters)
+    fun render(view: String, parameters: Map<String, Any>) {
+        res.render("$view.html", JSONUtils.toJSON(parameters))
     }
 
     /**
      * Render [view] using [parameters] and send response to [callback]
-     * @todo Find a more useful type than Json for [parameters]
      */
-    fun render(view: String, parameters: Json, callback: (String?) -> Unit) {
-        res.render("$view.html", parameters) {
+    fun render(view: String, parameters: Map<String, Any>, callback: (String?) -> Unit) {
+        res.render("$view.html", JSONUtils.toJSON(parameters)) {
             _, html -> callback.invoke(html as? String)
         }
     }

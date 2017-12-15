@@ -1,5 +1,4 @@
 import framework.express.Application
-import kotlin.js.json
 
 external fun require(module:String):dynamic
 
@@ -22,16 +21,16 @@ fun main(args: Array<String>) {
 
     application.get("/json") {
         _, response ->
-        response.sendJSON(json(
-                Pair("foo", "bar"),
-                Pair("flag", true),
-                Pair("list", arrayOf(1, 2, 3))
-        ))
+        response.sendJSON(arrayOf(1, 2, "test", mapOf("foo" to "bar")))
     }
 
     application.get("/view") {
         _, response ->
-        response.render("test", json(Pair("text", "This text is dynamic")))
+        response.render("test", mapOf(
+                "text" to "This text is dynamic",
+                "int" to 7,
+                "complex" to mapOf("foo" to "bar")
+        ))
     }
 
     application.listen(3000, {
