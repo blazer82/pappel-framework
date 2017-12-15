@@ -54,14 +54,14 @@ class Response(external private val res: dynamic) {
     /**
      * Send [data] response as JSON
      */
-    fun sendJSON(data: Map<String, Any>) {
+    fun sendJSON(data: Map<String, Any?>) {
         res.json(JSONUtils.toJSON(data))
     }
 
     /**
      * Send [data] response as JSON
      */
-    fun sendJSON(data: Array<Any>) {
+    fun sendJSON(data: Array<Any?>) {
         res.json(JSONUtils.toJSON(data))
     }
 
