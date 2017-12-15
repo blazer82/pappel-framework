@@ -49,6 +49,9 @@ class Router : Router() {
             ) as Map<String, Any>)
         }
 
+        /**
+         * Retrieve request parameter
+         */
         get("/param/:id") {
             request, response ->
             response.send("Param id was ${request.parameters!!["id"]}")
