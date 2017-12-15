@@ -1,4 +1,5 @@
 import pappel.Application
+import pappel.http.Status
 
 external fun require(module:String):dynamic
 
@@ -31,6 +32,12 @@ fun main(args: Array<String>) {
                 "int" to 7,
                 "complex" to mapOf("foo" to "bar")
         ))
+    }
+
+    application.get("/error") {
+        _, response ->
+        response.setStatus(Status.INTERNAL_SERVER_ERROR)
+        response.end()
     }
 
     application.listen(3000, {

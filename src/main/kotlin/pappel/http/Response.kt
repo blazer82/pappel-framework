@@ -5,6 +5,14 @@ import pappel.JSONUtils
 class Response(external private val res: dynamic) {
 
     /**
+     * End response
+     * May be called instead of [Response.send]
+     */
+    fun end() {
+        res.end()
+    }
+
+    /**
      * Render [view] and send response to client
      */
     fun render(view: String) {
@@ -62,6 +70,13 @@ class Response(external private val res: dynamic) {
      */
     fun setContentType(type: String) {
         res.type(type)
+    }
+
+    /**
+     * Set status [code]
+     */
+    fun setStatus(status: Status) {
+        res.status(status.code)
     }
 
 }
