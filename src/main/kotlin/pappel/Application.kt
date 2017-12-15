@@ -1,4 +1,7 @@
-package framework.express
+package pappel
+
+import pappel.http.Request
+import pappel.http.Response
 
 external fun require(module:String):dynamic
 

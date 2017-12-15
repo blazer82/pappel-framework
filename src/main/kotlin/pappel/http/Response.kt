@@ -1,34 +1,8 @@
-package framework.express
+package pappel.http
+
+import pappel.JSONUtils
 
 class Response(external private val res: dynamic) {
-
-    /**
-     * Set content [type]
-     */
-    fun setContentType(type: String) {
-        res.type(type)
-    }
-
-    /**
-     * Send response [string]
-     */
-    fun send(string: String) {
-        res.send(string)
-    }
-
-    /**
-     * Send [data] response as JSON
-     */
-    fun sendJSON(data: Map<String, Any>) {
-        res.json(JSONUtils.toJSON(data))
-    }
-
-    /**
-     * Send [data] response as JSON
-     */
-    fun sendJSON(data: Array<Any>) {
-        res.json(JSONUtils.toJSON(data))
-    }
 
     /**
      * Render [view] and send response to client
@@ -60,6 +34,34 @@ class Response(external private val res: dynamic) {
         res.render("$view.html", JSONUtils.toJSON(parameters)) {
             _, html -> callback.invoke(html as? String)
         }
+    }
+
+    /**
+     * Send response [string]
+     */
+    fun send(string: String) {
+        res.send(string)
+    }
+
+    /**
+     * Send [data] response as JSON
+     */
+    fun sendJSON(data: Map<String, Any>) {
+        res.json(JSONUtils.toJSON(data))
+    }
+
+    /**
+     * Send [data] response as JSON
+     */
+    fun sendJSON(data: Array<Any>) {
+        res.json(JSONUtils.toJSON(data))
+    }
+
+    /**
+     * Set content [type]
+     */
+    fun setContentType(type: String) {
+        res.type(type)
     }
 
 }
