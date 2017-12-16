@@ -1,6 +1,27 @@
 package pappel.database
 
-abstract class Model {
+import pappel.JSONUtils
+
+abstract class Model<T>(private val dataClass: T) {
+
+    abstract val sequelizeModel: dynamic
+
+    fun sync(force: Boolean = false, callback: ((error: Error?) -> Unit)? = null) {
+        sequelizeModel.sync(JSONUtils.toJSON(mapOf("force" to force))).then {
+            callback?.invoke(null)
+        }.catch {
+            err -> callback?.invoke(Error(err.message as String))
+        }
+    }
+
+    fun new(): T {
+        return ::dataClass.invoke()
+    }
+
+    fun save(data: T) {
+        val sequelizeData = sequelizeModel.build(data)
+        sequelizeData.save()
+    }
 
     class FieldDefinition<T>(val options: Options<T>) {
 

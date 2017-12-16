@@ -17,48 +17,27 @@ class Application : Router() {
     /**
      * Start listening on UNIX socket with [socketPath]
      */
-    fun listen(socketPath: String) {
-        app.listen(socketPath)
-    }
-
-    /**
-     * Start listening on UNIX socket with [socketPath]
-     */
-    fun listen(socketPath: String, callback: (() -> Unit)) {
+    fun listen(socketPath: String, callback: (() -> Unit)? = null) {
         app.listen(socketPath) {
-            callback.invoke()
+            callback?.invoke()
         }
     }
 
     /**
      * Start listening on [port]
      */
-    fun listen(port: Int) {
-        app.listen(port)
-    }
-
-    /**
-     * Start listening on [port]
-     */
-    fun listen(port: Int, callback: () -> Unit) {
+    fun listen(port: Int, callback: (() -> Unit)? = null) {
         app.listen(port) {
-            callback.invoke()
+            callback?.invoke()
         }
     }
 
     /**
      * Start listening on [host]:[port]
      */
-    fun listen(port: Int, host: String) {
-        app.listen(port, host)
-    }
-
-    /**
-     * Start listening on [host]:[port]
-     */
-    fun listen(port: Int, host: String, callback: () -> Unit) {
+    fun listen(port: Int, host: String, callback: (() -> Unit)? = null) {
         app.listen(port, host) {
-            callback.invoke()
+            callback?.invoke()
         }
     }
 

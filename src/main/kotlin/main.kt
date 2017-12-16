@@ -1,5 +1,5 @@
+import demo.Model
 import demo.Router
-import demo.model.User
 import pappel.Application
 import pappel.database.Connection
 
@@ -44,7 +44,17 @@ fun main(args: Array<String>) {
             /**
              * Register user model
              */
-            db.registerModel("User", User.fields)
+            val model = Model(db)
+
+            /**
+             * Create table
+             */
+            model.user.sync(true) {
+                val user = model.user.new()
+                user.username = "test"
+
+                model.user.save(user)
+            }
         }
     }
 

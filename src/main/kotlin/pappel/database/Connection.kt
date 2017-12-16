@@ -5,7 +5,6 @@ import pappel.JSONUtils
 class Connection {
 
     private val sequelize: dynamic
-    private val models: MutableMap<String, dynamic> = mutableMapOf()
 
     constructor(host: String, database: String, username: String, password: String) {
         val Sequelize: dynamic = pappel.require("sequelize")
@@ -14,24 +13,17 @@ class Connection {
     }
 
     /**
-     * Convenience method for [connect] without callback
-     */
-    fun connect() {
-        connect {}
-    }
-
-    /**
      * Connect to database and invoke [callback]
      */
-    fun connect(callback: (error: Error?) -> Unit) {
+    fun connect(callback: ((error: Error?) -> Unit)? = null) {
         sequelize.authenticate().then {
-            callback.invoke(null)
+            callback?.invoke(null)
         }.catch {
-            err -> callback.invoke(Error(err.message as String))
+            err -> callback?.invoke(Error(err.message as String))
         }
     }
 
-    fun registerModel(name: String, fields: Set<Model.FieldDefinition<Any>>) {
+    fun <T>defineModel(name: String, fields: Set<Model.FieldDefinition<Any>>, dataClass: T): Model<T> {
         val Sequelize: dynamic = pappel.require("sequelize")
         val options: MutableMap<String, Any> = mutableMapOf()
 
@@ -42,11 +34,17 @@ class Connection {
                 Model.FieldDefinition.Type.STRING -> Sequelize.STRING
             })
             fieldOptions.put("primaryKey", field.options.isPrimaryKey)
+            fieldOptions.put("autoIncrement", field.options.autoIncrement)
 
             options.put(field.options.name, fieldOptions)
         }
 
-        models.put("name", sequelize.define(name, JSONUtils.toJSON(options)))
+        val sequelizeModel = sequelize.define(name, JSONUtils.toJSON(options))
+        val model = object : Model<T>(dataClass) {
+            override val sequelizeModel = sequelizeModel
+        }
+
+        return model
     }
 
 }
