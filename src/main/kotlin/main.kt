@@ -1,5 +1,7 @@
 import demo.Router
+import demo.model.User
 import pappel.Application
+import pappel.database.Connection
 
 fun main(args: Array<String>) {
 
@@ -26,6 +28,25 @@ fun main(args: Array<String>) {
      * Register demo router
      */
     application.use("/", Router())
+
+    /**
+     * Setup database connection
+     */
+    val db = Connection("localhost", "test", "root", "root")
+    db.connect {
+        error ->
+        if (error != null) {
+            println("ERROR: Failed to connect to database. ${error.message}")
+        }
+        else {
+            println("Database connection established.")
+
+            /**
+             * Register user model
+             */
+            db.registerModel("User", User.fields)
+        }
+    }
 
     /**
      * Listen on port 3000

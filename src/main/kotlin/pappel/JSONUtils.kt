@@ -35,7 +35,7 @@ class JSONUtils {
         }
 
         fun retrieveMap(json: Any): Map<String, Any?>? {
-            if (js("typeof json") != "object") {
+            if (jsTypeOf(json) != "object") {
                 return null
             }
 

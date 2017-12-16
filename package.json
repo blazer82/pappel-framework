@@ -1,7 +1,7 @@
 {
-  "name": "kotlinjsexample",
-  "version": "1.0.0",
-  "description": "kotlinjsexample",
+  "name": "pappel-framework",
+  "version": "0.0.1",
+  "description": "A Kotlin framework for Node.js applications",
   "main": "index.js",
   "scripts": {
     "start": "node node/index.js",
@@ -9,10 +9,16 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blazer82/pappel-framework"
+  },
   "dependencies": {
     "express": "^4.16.2",
     "kotlin": "^1.2.0",
     "mustache": "^2.3.0",
-    "mustache-express": "^1.2.5"
+    "mustache-express": "^1.2.5",
+    "mysql2": "^1.5.1",
+    "sequelize": "^4.28.3"
   }
 }
