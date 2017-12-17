@@ -3,10 +3,15 @@ package pappel
 import pappel.http.Request
 import pappel.http.Response
 
-open class Router {
+abstract class Router {
 
     protected val express: dynamic = require("express")
     open val expressRouter: dynamic = express.Router()
+
+    open val application: Application
+        get() = _application!! // Supposed to be registered in time
+
+    private var _application: Application? = null
 
     /**
      * Handle all requests for [path]
@@ -67,6 +72,19 @@ open class Router {
      */
     fun use(path: String, router: Router) {
         expressRouter.use(path, router.expressRouter)
+        router.registerParent(this)
+    }
+
+    /**
+     * Register parent [router] or application
+     */
+    fun registerParent(router: Router) {
+        if (router is Application) {
+            _application = router
+        }
+        else {
+            _application = router.application
+        }
     }
 
 }

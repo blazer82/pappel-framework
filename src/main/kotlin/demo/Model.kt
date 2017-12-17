@@ -28,6 +28,6 @@ class Model(db: Connection) {
     data class User(
             var id: Int? = null,
             var username: String? = null
-    )
+    ): Model.DataClass()
 
 }

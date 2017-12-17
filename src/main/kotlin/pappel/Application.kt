@@ -1,11 +1,15 @@
 package pappel
 
+import pappel.database.Connection
+
 external fun require(module:String):dynamic
 
-class Application : Router() {
+open class Application : Router() {
 
     private val app: dynamic = express()
     override val expressRouter: dynamic = app
+
+    private val dbConnections: MutableMap<String, Connection> = mutableMapOf()
 
     init {
         val mustacheExpress = require("mustache-express")
@@ -39,6 +43,21 @@ class Application : Router() {
         app.listen(port, host) {
             callback?.invoke()
         }
+    }
+
+    /**
+     * Set DB [connection] with [name]
+     */
+    fun setDBConnection(name: String, connection: Connection): Connection {
+        dbConnections.put(name, connection)
+        return connection
+    }
+
+    /**
+     * Get DB connection with [name]
+     */
+    fun getDBConnection(name: String): Connection {
+        return dbConnections[name]!!
     }
 
 }

@@ -6,6 +6,12 @@ import pappel.http.Status
 class Router : Router() {
 
     /**
+     * Override type of [application]
+     */
+    override val application: demo.Application
+        get() = super.application as demo.Application
+
+    /**
      * Initialize demo routes
      */
     init {
@@ -25,7 +31,7 @@ class Router : Router() {
         get("/json") {
             _, response ->
             response.sendJSON(
-                    arrayOf(1, 2, "test", mapOf("foo" to "bar")) as Array<Any?>
+                    arrayOf(1, 2, "test", mapOf("foo" to "bar")) as Iterable<Any?>
             )
         }
 
@@ -74,6 +80,22 @@ class Router : Router() {
             response.setHeader("foo", "bar")
             response.setHeaders(mapOf("a" to "b", "c" to "d"))
             response.end()
+        }
+
+        /**
+         * Read user list from database
+         */
+        get("/user/list") {
+            _, response ->
+            application.model.user.findAll {
+                list ->
+                response.render("user/list", mapOf("users" to list.map {
+                    item -> mapOf(
+                        "id" to item.id,
+                        "username" to item.username
+                    )
+                }))
+            }
         }
     }
 

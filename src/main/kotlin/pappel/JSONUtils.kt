@@ -9,18 +9,23 @@ class JSONUtils {
         fun toJSON(data: Map<String, Any?>): Json {
             val arrayOfPairs: Array<Pair<String, Any?>> = data.map {
                 entry ->
-                if (entry.value is Map<*,*>) {
-                    Pair(entry.key, toJSON(entry.value as Map<String, Any?>))
-                }
-                else {
-                    entry.toPair()
+                when {
+                    entry.value is Map<*, *> -> {
+                        Pair(entry.key, toJSON(entry.value as Map<String, Any?>))
+                    }
+                    entry.value is Iterable<*> -> {
+                        Pair(entry.key, toJSON(entry.value as Iterable<Any?>))
+                    }
+                    else -> {
+                        entry.toPair()
+                    }
                 }
             }.toTypedArray()
 
             return json(*arrayOfPairs)
         }
 
-        fun toJSON(data: Array<Any?>): Array<Any?> {
+        fun toJSON(data: Iterable<Any?>): Array<Any?> {
             val array: Array<Any?> = data.map {
                 entry ->
                 if (entry is Map<*,*>) {

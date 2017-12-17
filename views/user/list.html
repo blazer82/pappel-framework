@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+    <h1>User list</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+        </tr>
+        {{#users}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{username}}</td>
+        </tr>
+        {{/users}}
+    </table>
+</body>
+</html>

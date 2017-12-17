@@ -1,7 +1,4 @@
-import demo.Model
-import demo.Router
-import pappel.Application
-import pappel.database.Connection
+import demo.Application
 
 fun main(args: Array<String>) {
 
@@ -22,40 +19,6 @@ fun main(args: Array<String>) {
         request, _, next ->
         println("Incoming request: ${request.path}")
         next()
-    }
-
-    /**
-     * Register demo router
-     */
-    application.use("/", Router())
-
-    /**
-     * Setup database connection
-     */
-    val db = Connection("localhost", "test", "root", "root")
-    db.connect {
-        error ->
-        if (error != null) {
-            println("ERROR: Failed to connect to database. ${error.message}")
-        }
-        else {
-            println("Database connection established.")
-
-            /**
-             * Register user model
-             */
-            val model = Model(db)
-
-            /**
-             * Create table
-             */
-            model.user.sync(true) {
-                val user = model.user.new()
-                user.username = "test"
-
-                model.user.save(user)
-            }
-        }
     }
 
     /**

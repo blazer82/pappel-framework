@@ -1,8 +1,9 @@
 package pappel.database
 
 import pappel.JSONUtils
+import kotlin.js.Date
 
-abstract class Model<T>(private val dataClass: T) {
+abstract class Model<T: Model.DataClass>(private val dataClass: T) {
 
     abstract val sequelizeModel: dynamic
 
@@ -18,9 +19,40 @@ abstract class Model<T>(private val dataClass: T) {
         return ::dataClass.invoke()
     }
 
-    fun save(data: T) {
+    fun save(data: T, callback: ((Error?) -> Unit)? = null) {
         val sequelizeData = sequelizeModel.build(data)
-        sequelizeData.save()
+        sequelizeData.save().then {
+            callback?.invoke(null)
+        }.catch {
+            err -> callback?.invoke(Error(err.message as String))
+        }
+    }
+
+    fun findAll(callback: (List<T>) -> Unit) {
+        sequelizeModel.findAll().then {
+            records ->
+            val list:MutableList<T> = mutableListOf()
+            for (row in records) {
+                list.add(hydrateFromInstance(row))
+            }
+
+            callback.invoke(list)
+        }
+    }
+
+    private fun hydrateFromInstance(instance: dynamic): T {
+        val data = new()
+
+        val instanceKeys = (js("Object.keys(instance.dataValues)") as Array<String>).toSet()
+        val dataKeys = (js("Object.keys(data)") as Array<String>).toSet()
+
+        val keys = instanceKeys.intersect(dataKeys)
+
+        for (key in keys) {
+            js("data[key] = instance[key]")
+        }
+
+        return data
     }
 
     class FieldDefinition<T>(val options: Options<T>) {
@@ -49,5 +81,10 @@ abstract class Model<T>(private val dataClass: T) {
         }
 
     }
+
+    open class DataClass(
+            var createdAt: Date? = null,
+            var updatedAt: Date? = null
+    )
 
 }

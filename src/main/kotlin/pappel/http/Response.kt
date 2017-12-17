@@ -61,7 +61,7 @@ class Response(external private val res: dynamic) {
     /**
      * Send [data] response as JSON
      */
-    fun sendJSON(data: Array<Any?>) {
+    fun sendJSON(data: Iterable<Any?>) {
         res.json(JSONUtils.toJSON(data))
     }
 

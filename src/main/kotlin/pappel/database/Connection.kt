@@ -23,7 +23,7 @@ class Connection {
         }
     }
 
-    fun <T>defineModel(name: String, fields: Set<Model.FieldDefinition<Any>>, dataClass: T): Model<T> {
+    fun <T: Model.DataClass>defineModel(name: String, fields: Set<Model.FieldDefinition<Any>>, dataClass: T): Model<T> {
         val Sequelize: dynamic = pappel.require("sequelize")
         val options: MutableMap<String, Any> = mutableMapOf()
 
