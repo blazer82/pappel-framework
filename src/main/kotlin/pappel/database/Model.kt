@@ -2,6 +2,7 @@ package pappel.database
 
 import pappel.JSONUtils
 import kotlin.js.Date
+import kotlin.js.Promise
 
 abstract class Model<T: Model.DataClass>(private val dataClass: T) {
 
@@ -38,6 +39,24 @@ abstract class Model<T: Model.DataClass>(private val dataClass: T) {
 
             callback.invoke(list)
         }
+    }
+
+    fun findAll(): Promise<List<T>> {
+        return Promise({
+            resolve, reject ->
+            sequelizeModel.findAll().then {
+                records ->
+                val list:MutableList<T> = mutableListOf()
+                for (row in records) {
+                    list.add(hydrateFromInstance(row))
+                }
+
+                resolve.invoke(list)
+            }.catch {
+                err -> reject.invoke(Error(err.message as String))
+            }
+            Unit
+        })
     }
 
     private fun hydrateFromInstance(instance: dynamic): T {

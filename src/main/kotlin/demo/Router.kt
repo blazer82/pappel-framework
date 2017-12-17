@@ -87,7 +87,7 @@ class Router : Router() {
          */
         get("/user/list") {
             _, response ->
-            application.model.user.findAll {
+            application.model.user.findAll().then {
                 list ->
                 response.render("user/list", mapOf("users" to list.map {
                     item -> mapOf(
@@ -95,6 +95,10 @@ class Router : Router() {
                         "username" to item.username
                     )
                 }))
+            }.catch {
+                error ->
+                response.setStatus(Status.INTERNAL_SERVER_ERROR)
+                response.send(error.message ?: "")
             }
         }
     }
