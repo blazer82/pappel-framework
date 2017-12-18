@@ -2,33 +2,18 @@
 
 ***A Kotlin framework for Node.js applications***
 
+## Features
+
+* Clean and well-**typed** API
+* Full **MVC support**
+* Powered by popular node modules (**express**, **sequelize**, …)
+* **async/await** language support
+* **Mustache** template engine
+* Scalable complexity including stackable applications
+
 ## Example code
 
-`main.kt`
-
-```kotlin
-import pappel.Application
-
-fun main(args: Array<String>) {
-
-    /**
-     * Initialize application
-     */
-    val application = Application()
-
-    /**
-     * Register router
-     */
-    application.use("/", Router())
-
-    /**
-     * Listen on port 3000
-     */
-    application.listen(3000)
-}
-``` 
-
-`Router.kt`
+### Routing
 
 ```kotlin
 import pappel.Router
@@ -36,7 +21,7 @@ import pappel.Router
 class Router : Router() {
 
     /**
-     * Initialize demo routes
+     * Initialize routes
      */
     init {
 
@@ -77,7 +62,22 @@ class Router : Router() {
 }
 ``` 
 
-`view.html`
+### Database and async/await support
+
+```kotlin
+async {
+    await { db.connect() }
+
+    await { model.user.sync(true) }
+
+    val user = model.user.new()
+    user1.username = "demo"
+
+    await { model.user.save(user) }
+}
+```
+
+### Templates
 
 ```html
 <html>

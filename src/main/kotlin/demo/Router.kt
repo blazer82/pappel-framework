@@ -1,5 +1,7 @@
 package demo
 
+import async
+import await
 import pappel.Router
 import pappel.http.Status
 
@@ -87,18 +89,15 @@ class Router : Router() {
          */
         get("/user/list") {
             _, response ->
-            application.model.user.findAll().then {
-                list ->
+            async {
+                val list = await { application.model.user.findAll() }
+
                 response.render("user/list", mapOf("users" to list.map {
                     item -> mapOf(
                         "id" to item.id,
                         "username" to item.username
                     )
                 }))
-            }.catch {
-                error ->
-                response.setStatus(Status.INTERNAL_SERVER_ERROR)
-                response.send(error.message ?: "")
             }
         }
     }

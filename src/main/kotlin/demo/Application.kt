@@ -1,5 +1,7 @@
 package demo
 
+import async
+import await
 import pappel.Application
 import pappel.database.Connection
 
@@ -23,33 +25,21 @@ class Application : Application() {
         use("/", Router())
 
         /**
-         * Connect DB and startup application
+         * Connect and setup database
          */
-        db.connect {
-            error ->
-            if (error != null) {
-                println("ERROR: Failed to connect to database. ${error.message}")
-            }
-            else {
-                println("Database connection established.")
+        async {
+            await { db.connect() }
 
-                /**
-                 * Create table
-                 */
-                model.user.sync(true) {
+            await { model.user.sync(true) }
 
-                    /**
-                     * Create two users
-                     */
-                    val user1 = model.user.new()
-                    user1.username = "User 1"
-                    model.user.save(user1)
+            val user1 = model.user.new()
+            user1.username = "User 1"
 
-                    val user2 = model.user.new()
-                    user2.username = "User 2"
-                    model.user.save(user2)
-                }
-            }
+            val user2 = model.user.new()
+            user2.username = "User 2"
+
+            await { model.user.save(user1) }
+            await { model.user.save(user2) }
         }
     }
 

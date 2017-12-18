@@ -8,56 +8,49 @@ abstract class Model<T: Model.DataClass>(private val dataClass: T) {
 
     abstract val sequelizeModel: dynamic
 
-    fun sync(force: Boolean = false, callback: ((error: Error?) -> Unit)? = null) {
-        sequelizeModel.sync(JSONUtils.toJSON(mapOf("force" to force))).then {
-            callback?.invoke(null)
-        }.catch {
-            err -> callback?.invoke(Error(err.message as String))
-        }
-    }
+    fun sync(force: Boolean = false): Promise<Unit> =
+            Promise {
+                resolve, reject ->
+                sequelizeModel.sync(JSONUtils.toJSON(mapOf("force" to force))).then {
+                    resolve.invoke(Unit)
+                }.catch {
+                    err -> reject.invoke(Error(err.message as String))
+                }
+                Unit
+            }
 
     fun new(): T {
         return ::dataClass.invoke()
     }
 
-    fun save(data: T, callback: ((Error?) -> Unit)? = null) {
-        val sequelizeData = sequelizeModel.build(data)
-        sequelizeData.save().then {
-            callback?.invoke(null)
-        }.catch {
-            err -> callback?.invoke(Error(err.message as String))
-        }
-    }
-
-    fun findAll(callback: (List<T>) -> Unit) {
-        sequelizeModel.findAll().then {
-            records ->
-            val list:MutableList<T> = mutableListOf()
-            for (row in records) {
-                list.add(hydrateFromInstance(row))
-            }
-
-            callback.invoke(list)
-        }
-    }
-
-    fun findAll(): Promise<List<T>> {
-        return Promise({
-            resolve, reject ->
-            sequelizeModel.findAll().then {
-                records ->
-                val list:MutableList<T> = mutableListOf()
-                for (row in records) {
-                    list.add(hydrateFromInstance(row))
+    fun save(data: T): Promise<Unit> =
+            Promise {
+                resolve, reject ->
+                val sequelizeData = sequelizeModel.build(data)
+                sequelizeData.save().then {
+                    resolve.invoke(Unit)
+                }.catch {
+                    err -> reject.invoke(Error(err.message as String))
                 }
-
-                resolve.invoke(list)
-            }.catch {
-                err -> reject.invoke(Error(err.message as String))
+                Unit
             }
-            Unit
-        })
-    }
+
+    fun findAll(): Promise<List<T>> =
+            Promise {
+                resolve, reject ->
+                sequelizeModel.findAll().then {
+                    records ->
+                    val list:MutableList<T> = mutableListOf()
+                    for (row in records) {
+                        list.add(hydrateFromInstance(row))
+                    }
+
+                    resolve.invoke(list)
+                }.catch {
+                    err -> reject.invoke(Error(err.message as String))
+                }
+                Unit
+            }
 
     private fun hydrateFromInstance(instance: dynamic): T {
         val data = new()

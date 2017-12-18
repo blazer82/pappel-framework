@@ -1,6 +1,7 @@
 package pappel.database
 
 import pappel.JSONUtils
+import kotlin.js.Promise
 
 class Connection {
 
@@ -15,13 +16,16 @@ class Connection {
     /**
      * Connect to database and invoke [callback]
      */
-    fun connect(callback: ((error: Error?) -> Unit)? = null) {
-        sequelize.authenticate().then {
-            callback?.invoke(null)
-        }.catch {
-            err -> callback?.invoke(Error(err.message as String))
-        }
-    }
+    fun connect(): Promise<Unit> =
+            Promise {
+                resolve, reject ->
+                sequelize.authenticate().then {
+                    resolve.invoke(Unit)
+                }.catch {
+                    err -> reject.invoke(Error(err.message as String))
+                }
+                Unit
+            }
 
     fun <T: Model.DataClass>defineModel(name: String, fields: Set<Model.FieldDefinition<Any>>, dataClass: T): Model<T> {
         val Sequelize: dynamic = pappel.require("sequelize")
