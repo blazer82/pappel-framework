@@ -88,3 +88,8 @@ async {
 </html>
 ```
 
+## Disclaimer
+
+Pappel framework is still under development and **not yet ready to use** as many features are still missing and the API may significantly change in the future.
+
+If you're interested in **updates** or would like to **support** Pappel framework in any way, do not hesitate to get in touch.
