@@ -17,7 +17,5 @@ suspend fun <T>await(block: () -> Promise<T>) = suspendCoroutine<T> {
 private class StandaloneCoroutine(override val context: CoroutineContext): Continuation<Unit> {
     override fun resume(value: Unit) {}
 
-    override fun resumeWithException(exception: Throwable) {
-        throw exception
-    }
+    override fun resumeWithException(error: Throwable) {}
 }

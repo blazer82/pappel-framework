@@ -28,18 +28,23 @@ class Application : Application() {
          * Connect and setup database
          */
         async {
-            await { db.connect() }
+            try {
+                await { db.connect() }
 
-            await { model.user.sync(true) }
+                await { model.user.sync(true) }
 
-            val user1 = model.user.new()
-            user1.username = "User 1"
+                val user1 = model.user.new()
+                user1.username = "User 1"
 
-            val user2 = model.user.new()
-            user2.username = "User 2"
+                val user2 = model.user.new()
+                user2.username = "User 2"
 
-            await { model.user.save(user1) }
-            await { model.user.save(user2) }
+                await { model.user.save(user1) }
+                await { model.user.save(user2) }
+            }
+            catch (e: Exception) {
+                println("Error setting up database: ${e.message}")
+            }
         }
     }
 

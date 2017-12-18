@@ -14,7 +14,7 @@ abstract class Model<T: Model.DataClass>(private val dataClass: T) {
                 sequelizeModel.sync(JSONUtils.toJSON(mapOf("force" to force))).then {
                     resolve.invoke(Unit)
                 }.catch {
-                    err -> reject.invoke(Error(err.message as String))
+                    err -> reject.invoke(Exception(err.message as String))
                 }
                 Unit
             }
@@ -30,7 +30,7 @@ abstract class Model<T: Model.DataClass>(private val dataClass: T) {
                 sequelizeData.save().then {
                     resolve.invoke(Unit)
                 }.catch {
-                    err -> reject.invoke(Error(err.message as String))
+                    err -> reject.invoke(Exception(err.message as String))
                 }
                 Unit
             }
@@ -47,7 +47,7 @@ abstract class Model<T: Model.DataClass>(private val dataClass: T) {
 
                     resolve.invoke(list)
                 }.catch {
-                    err -> reject.invoke(Error(err.message as String))
+                    err -> reject.invoke(Exception(err.message as String))
                 }
                 Unit
             }

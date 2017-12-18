@@ -22,7 +22,7 @@ class Connection {
                 sequelize.authenticate().then {
                     resolve.invoke(Unit)
                 }.catch {
-                    err -> reject.invoke(Error(err.message as String))
+                    err -> reject.invoke(Exception(err.message as String))
                 }
                 Unit
             }
