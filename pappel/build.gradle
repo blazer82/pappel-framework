@@ -19,11 +19,10 @@ repositories {
 }
 
 dependencies {
-    compile project(":pappel")
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
 }
 
 compileKotlin2Js.kotlinOptions.metaInfo = true
-compileKotlin2Js.kotlinOptions.sourceMap = true
+compileKotlin2Js.kotlinOptions.sourceMap = false
 compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-compileKotlin2Js.kotlinOptions.outputFile = "node/index.js"
+compileKotlin2Js.kotlinOptions.outputFile = "node_modules/pappel.js"

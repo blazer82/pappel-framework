@@ -1,6 +1,6 @@
 .gradle
 .idea
-/build
+build
 /node
 /node_modules
 /npm-debug.log
