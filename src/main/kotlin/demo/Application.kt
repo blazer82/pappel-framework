@@ -10,7 +10,7 @@ class Application : Application() {
     /**
      * Setup database connection
      */
-    val db = setDBConnection("default", Connection("localhost", "test", "root", "root"))
+    val db = Connection("localhost", "test", "root", "root")
 
     /**
      * Register user model
