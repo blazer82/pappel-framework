@@ -8,7 +8,7 @@ import pappel.http.Status
 class Router : Router() {
 
     /**
-     * Override type of [application]
+     * Override the type of [application]
      */
     override val application: demo.Application
         get() = super.application as demo.Application

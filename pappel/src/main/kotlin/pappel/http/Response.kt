@@ -89,7 +89,7 @@ class Response(external private val res: dynamic) {
     }
 
     /**
-     * Set status [code]
+     * Set [status]
      */
     fun setStatus(status: Status) {
         res.status(status.code)

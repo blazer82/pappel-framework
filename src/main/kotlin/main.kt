@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
     /**
      * Listen on port 3000
      */
-    application.listen(3000, {
+    application.listen(3000).then {
         println("Listening on port 3000")
-    })
+    }
 }

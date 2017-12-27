@@ -3,9 +3,20 @@ package pappel
 import kotlin.js.Json
 import kotlin.js.json
 
+/**
+ * JSON utilities for easier conversion of types between JavaScript and Kotlin.
+ *
+ * Most of the time these functions will be directly incorporated into the framework
+ * methods and won't be used in any application code.
+ */
 class JSONUtils {
 
     companion object {
+
+        /**
+         * Converts a map of [data] into JSON.
+         * @return Json
+         */
         fun toJSON(data: Map<String, Any?>): Json {
             val arrayOfPairs: Array<Pair<String, Any?>> = data.map {
                 entry ->
@@ -25,6 +36,10 @@ class JSONUtils {
             return json(*arrayOfPairs)
         }
 
+        /**
+         * Converts any iterable [data] into JSON.
+         * @return Json
+         */
         fun toJSON(data: Iterable<Any?>): Array<Any?> {
             val array: Array<Any?> = data.map {
                 entry ->
@@ -39,6 +54,10 @@ class JSONUtils {
             return array
         }
 
+        /**
+         * Converts any JSON input data to a map.
+         * @return Map<String, Any?>
+         */
         fun retrieveMap(json: Any): Map<String, Any?>? {
             if (jsTypeOf(json) != "object") {
                 return null
