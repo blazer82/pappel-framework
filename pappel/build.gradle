@@ -3,9 +3,13 @@ buildscript {
 
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.13"
     }
 }
 
@@ -13,6 +17,7 @@ group 'com.example'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin2js'
+apply plugin: 'org.jetbrains.dokka'
 
 repositories {
     mavenCentral()
@@ -26,3 +31,14 @@ compileKotlin2Js.kotlinOptions.metaInfo = true
 compileKotlin2Js.kotlinOptions.sourceMap = false
 compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 compileKotlin2Js.kotlinOptions.outputFile = "node_modules/pappel.js"
+
+dokka {
+    outputFormat = "html"
+    outputDirectory = "$buildDir/javadoc"
+
+    linkMapping {
+        dir = "src/main/kotlin"
+        url = "https://github.com/blazer82/pappel-framework/tree/master/pappel/src/main/kotlin"
+        suffix = "#L"
+    }
+}
