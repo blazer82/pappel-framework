@@ -4,7 +4,7 @@ import pappel.http.Request
 import pappel.http.Response
 
 /**
- * Router base class
+ * Router base class.
  *
  * A base class for all routers including the [Application] which also acts as a router.
  * All user defined routers may extend this class.
@@ -14,12 +14,12 @@ import pappel.http.Response
 abstract class Router {
 
     /**
-     * References the expressjs node module.
+     * Exposes the expressjs node module.
      */
     protected val express: dynamic = require("express")
 
     /**
-     * References the expressjs router.
+     * Exposes the expressjs router.
      */
     open val expressRouter: dynamic = express.Router()
 

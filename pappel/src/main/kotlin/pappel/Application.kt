@@ -16,7 +16,7 @@ open class Application : Router() {
     private val app: dynamic = express()
 
     /**
-     * References the expressjs application.
+     * Exposes the expressjs application.
      */
     override val expressRouter: dynamic = app
 

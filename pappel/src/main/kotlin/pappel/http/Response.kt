@@ -2,25 +2,34 @@ package pappel.http
 
 import pappel.JSONUtils
 
+/**
+ * HTTP Response class.
+ *
+ * Encapsulates HTTP responses as used within [Router] callbacks.
+ * @constructor Creates a new Response based on an expressjs response.
+ */
 class Response(external private val res: dynamic) {
 
     /**
-     * End response
-     * May be called instead of [Response.send]
+     * Ends response.
+     * May be called instead of [send] or [sendJSON].
      */
     fun end() {
         res.end()
     }
 
     /**
-     * Render [view] and send response to client
+     * Renders [view] and sends it to the client.
+     * @param view Relative path to view
      */
     fun render(view: String) {
         res.render("$view.html")
     }
 
     /**
-     * Render [view] and send response to [callback]
+     * Renders [view] and sends it to [callback].
+     * @param view Relative path to view
+     * @param callback Callback to process rendered view in
      */
     fun render(view: String, callback: (String?) -> Unit) {
         res.render("$view.html") {
@@ -29,14 +38,19 @@ class Response(external private val res: dynamic) {
     }
 
     /**
-     * Render [view] using [parameters] and send response to client
+     * Renders [view] using [parameters] and sends it to the client.
+     * @param view Relative path to view
+     * @param parameters Parameters to pass through to view template
      */
     fun render(view: String, parameters: Map<String, Any>) {
         res.render("$view.html", JSONUtils.toJSON(parameters))
     }
 
     /**
-     * Render [view] using [parameters] and send response to [callback]
+     * Renders [view] using [parameters] and sends it to [callback].
+     * @param view Relative path to view
+     * @param parameters Parameters to pass through to view template
+     * @param callback Callback to process rendered view in
      */
     fun render(view: String, parameters: Map<String, Any>, callback: (String?) -> Unit) {
         res.render("$view.html", JSONUtils.toJSON(parameters)) {
@@ -45,42 +59,49 @@ class Response(external private val res: dynamic) {
     }
 
     /**
-     * Send response [string]
+     * Sends response [string].
+     * @param string String to send to the client
      */
     fun send(string: String) {
         res.send(string)
     }
 
     /**
-     * Send [data] response as JSON
+     * Sends [data] response as JSON.
+     * @param data Map to send to the client as JSON
      */
     fun sendJSON(data: Map<String, Any?>) {
         res.json(JSONUtils.toJSON(data))
     }
 
     /**
-     * Send [data] response as JSON
+     * Sends [data] response as JSON.
+     * @param data Iterable to send to the client as JSON
      */
     fun sendJSON(data: Iterable<Any?>) {
         res.json(JSONUtils.toJSON(data))
     }
 
     /**
-     * Set content [type]
+     * Sets content [type] HTTP header.
+     * @param type Content type string
      */
     fun setContentType(type: String) {
         res.type(type)
     }
 
     /**
-     * Set header [field] to [value]
+     * Sets HTTP header [field] to [value].
+     * @param field Header field name
+     * @param value Header field value
      */
     fun setHeader(field: String, value: String) {
         res.append(field, value)
     }
 
     /**
-     * Set multiple headers
+     * Sets multiple HTTP headers.
+     * @param fields Header field names and values
      */
     fun setHeaders(fields: Map<String, String>) {
         fields.forEach {
@@ -89,7 +110,8 @@ class Response(external private val res: dynamic) {
     }
 
     /**
-     * Set [status]
+     * Sets HTTP [status]
+     * @param status [Status]
      */
     fun setStatus(status: Status) {
         res.status(status.code)
