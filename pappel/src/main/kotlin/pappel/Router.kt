@@ -107,6 +107,15 @@ abstract class Router {
     }
 
     /**
+     * Uses [directoryName] as static directory.
+     * May be used to serve assets like images or stylesheets.
+     * @param directoryName Filesystem path relative to project root
+     */
+    fun useStaticDirectory(directoryName: String) {
+        expressRouter.use(express.static(js("__dirname + '/../' + directoryName")))
+    }
+
+    /**
      * Register parent [router] or application
      */
     private fun registerParent(router: Router) {
