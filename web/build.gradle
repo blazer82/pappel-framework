@@ -1,0 +1,48 @@
+buildscript {
+    ext.kotlin_version = '1.2.21'
+    ext.html_version = '0.6.6'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.27"
+    }
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'kotlin-platform-js'
+apply plugin: 'org.jetbrains.kotlin.frontend'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:$html_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+kotlinFrontend {
+    npm {
+        dependency("react")
+        dependency("react-dom")
+    }
+
+    webpackBundle {
+        bundleName = "main"
+        contentPath = file('src/main/web')
+    }
+}
+
+compileKotlin2Js.kotlinOptions.metaInfo = true
+compileKotlin2Js.kotlinOptions.sourceMap = true
+compileKotlin2Js.kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+compileKotlin2Js.kotlinOptions.main = "call"

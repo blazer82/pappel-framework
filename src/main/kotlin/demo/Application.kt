@@ -25,6 +25,11 @@ class Application : Application() {
         use("/", Router())
 
         /**
+         * Register asset directory
+         */
+        useStaticDirectory("web/public")
+
+        /**
          * Connect and setup database
          */
         async {

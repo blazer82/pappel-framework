@@ -27,6 +27,11 @@ class Router : Router() {
             response.send("Hello world")
         }
 
+        get("/test") {
+            _, response ->
+            response.render("test");
+        }
+
         /**
          * Render JSON output
          */
