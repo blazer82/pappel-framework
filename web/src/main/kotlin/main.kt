@@ -1,37 +1,12 @@
-import kotlinx.html.*
-import kotlinx.html.js.*
-import react.*
-import react.dom.*
-import kotlin.browser.*
+import demo.Application
+import react.dom.ReactDOM
+import react.dom.render
+import kotlin.browser.document
 
 fun main(args: Array<String>) {
-    println("Hello?")
 
-    val element = document.getElementById("dyn-text")
-    println(element)
-
-    element?.innerHTML = "dyn text"
-
-    ReactDOM.render(document.getElementById("react-test")) {
+    ReactDOM.render(document.getElementById("application")) {
         Application {}
     }
 
 }
-
-class Application : ReactDOMComponent<ReactComponentNoProps, ApplicationPageState>() {
-
-    init {
-        state = ApplicationPageState()
-    }
-
-    override fun ReactDOMBuilder.render() {
-        p {
-            +"react test"
-        }
-    }
-
-    companion object : ReactComponentSpec<Application, ReactComponentNoProps, ApplicationPageState>
-
-}
-
-class ApplicationPageState : RState

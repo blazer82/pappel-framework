@@ -27,11 +27,6 @@ class Router : Router() {
             response.send("Hello world")
         }
 
-        get("/test") {
-            _, response ->
-            response.render("test");
-        }
-
         /**
          * Render JSON output
          */
@@ -104,6 +99,14 @@ class Router : Router() {
                     )
                 }))
             }
+        }
+
+        /**
+         * React frontend application demo
+         */
+        get("/react") {
+            _, response ->
+            response.render("react")
         }
     }
 

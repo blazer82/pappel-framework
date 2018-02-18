@@ -9,6 +9,7 @@
 * Powered by popular node modules (**express**, **sequelize**, …)
 * **async/await** language support
 * **Mustache** template engine
+* Built-in **React** support
 * Scalable complexity including stackable applications
 
 ## Example code
@@ -86,6 +87,38 @@ async {
         <p>Request on path {{path}}</p>
     </body>
 </html>
+```
+
+### React components
+
+```kotlin
+class CounterComponent : ReactDOMComponent<ReactComponentNoProps, CounterComponent.State>() {
+
+    init {
+        state = State(counter = 0)
+    }
+
+    override fun ReactDOMBuilder.render() {
+        div("counter") {
+            p {
+                +"Counter: ${state.counter}"
+            }
+            button {
+                +"Increase"
+
+                onClickFunction = {
+                    setState {
+                        counter = state.counter + 1
+                    }
+                }
+            }
+        }
+    }
+
+    companion object : ReactComponentSpec<CounterComponent, ReactComponentNoProps, State>
+
+    class State(var counter: Int = 0) : RState
+}
 ```
 
 ## Disclaimer
