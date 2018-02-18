@@ -1,16 +1,5 @@
 package runtime.wrappers
 
-external fun require(module: String): dynamic
-
-inline fun <T> jsObject(builder: T.() -> Unit): T {
-    val obj: T = js("({})")
-    return obj.apply {
-        builder()
-    }
-}
-
-inline fun js(builder: dynamic.() -> Unit): dynamic = jsObject(builder)
-
 fun Any.getOwnPropertyNames(): Array<String> {
     @Suppress("UNUSED_VARIABLE")
     val me = this
@@ -24,5 +13,3 @@ fun toPlainObjectStripNull(me: Any): dynamic {
     }
     return obj
 }
-
-fun jsstyle(builder: dynamic.() -> Unit): String = js(builder)

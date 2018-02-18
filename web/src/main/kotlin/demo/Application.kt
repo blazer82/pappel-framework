@@ -1,20 +1,19 @@
 package demo
 
-import react.ReactComponentNoProps
-import react.ReactComponentNoState
+import pappel.Application
+import pappel.Component
 import react.ReactComponentSpec
 import react.dom.ReactDOMBuilder
-import react.dom.ReactDOMComponent
 
-class Application : ReactDOMComponent<ReactComponentNoProps, ReactComponentNoState>() {
+class Application : Application<Component.Props, Component.State>() {
 
     init {
-        state = ReactComponentNoState()
+        state = Component.State()
     }
 
     override fun ReactDOMBuilder.render() {
         CounterComponent {}
     }
 
-    companion object : ReactComponentSpec<Application, ReactComponentNoProps, ReactComponentNoState>
+    companion object : ReactComponentSpec<demo.Application, Component.Props, Component.State>
 }

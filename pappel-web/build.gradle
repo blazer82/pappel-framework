@@ -24,7 +24,6 @@ repositories {
 }
 
 dependencies {
-    compile project(":pappel-web")
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-html-js:$html_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
@@ -43,7 +42,6 @@ kotlinFrontend {
 }
 
 compileKotlin2Js.kotlinOptions.metaInfo = true
-compileKotlin2Js.kotlinOptions.sourceMap = true
-compileKotlin2Js.kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+compileKotlin2Js.kotlinOptions.sourceMap = false
 compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-compileKotlin2Js.kotlinOptions.main = "call"
+compileKotlin2Js.kotlinOptions.outputFile = "web/build/node_modules/pappel-web.js"

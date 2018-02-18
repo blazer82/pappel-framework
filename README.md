@@ -92,7 +92,7 @@ async {
 ### React components
 
 ```kotlin
-class CounterComponent : ReactDOMComponent<ReactComponentNoProps, CounterComponent.State>() {
+class CounterComponent : Component<Component.Props, CounterComponent.State>() {
 
     init {
         state = State(counter = 0)
@@ -115,9 +115,9 @@ class CounterComponent : ReactDOMComponent<ReactComponentNoProps, CounterCompone
         }
     }
 
-    companion object : ReactComponentSpec<CounterComponent, ReactComponentNoProps, State>
+    companion object : ReactComponentSpec<CounterComponent, Component.Props, CounterComponent.State>
 
-    class State(var counter: Int = 0) : RState
+    class State(var counter: Int = 0) : Component.State()
 }
 ```
 

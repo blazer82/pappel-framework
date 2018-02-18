@@ -1,4 +1,5 @@
 rootProject.name = 'kotlinjsexample'
 include ':pappel'
 include ':web'
+include 'pappel-web'
 
